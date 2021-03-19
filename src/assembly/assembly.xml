@@ -11,7 +11,16 @@
             <directory>src/bin</directory>
             <outputDirectory>bin</outputDirectory>
             <includes>
-                <include>statique</include>
+                <include>oe</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>src/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>oe.bat</include>
             </includes>
             <lineEnding>unix</lineEnding>
             <fileMode>0755</fileMode>
