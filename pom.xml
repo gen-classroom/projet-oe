@@ -29,7 +29,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>projet-oe</finalName>
+                            <finalName>statique</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>src/assembly/assembly.xml</descriptor>
@@ -52,11 +52,6 @@
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
             <version>4.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-all</artifactId>
-            <version>0.62.2</version>
         </dependency>
     </dependencies>
 
