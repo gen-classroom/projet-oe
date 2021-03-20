@@ -1,20 +1,17 @@
 package ch.heigvd.gen.oe.utils;
 
-import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class jsonTest {
+public class JsonTest {
 
     static private class TestClass {
         private int integer;
@@ -49,7 +46,7 @@ public class jsonTest {
             e.printStackTrace();
         }
 
-        jsonParser parser = new jsonParser();
+        Json parser = new Json();
         test = parser.read(FILENAME, TestClass.class);
 
         /* Delete json file */
@@ -84,7 +81,7 @@ public class jsonTest {
             e.printStackTrace();
         }
 
-        jsonParser parser = new jsonParser();
+        Json parser = new Json();
         test = parser.read(FILENAME, TestClass.class);
 
         /* Delete json file */
@@ -117,7 +114,7 @@ public class jsonTest {
             e.printStackTrace();
         }
 
-        jsonParser parser = new jsonParser();
+        Json parser = new Json();
         tests = parser.read(FILENAME, TestClass[].class);
 
         /* Delete json file */

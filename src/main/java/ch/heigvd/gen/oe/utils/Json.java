@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class jsonParser {
+public class Json {
 
     /**
      * Read a json file and return an instance of the class defined
@@ -21,7 +21,6 @@ public class jsonParser {
                 new FileInputStream(filename), StandardCharsets.UTF_8))) {
 
             Gson gson = new Gson();
-
             return gson.fromJson(in, type);
 
         } catch (IOException e) {
