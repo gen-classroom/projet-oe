@@ -6,6 +6,11 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Class Json to parse and create json files
+ *
+ * @author Do Vale Lopes Miguel
+ */
 public class Json {
 
     /**
@@ -31,15 +36,21 @@ public class Json {
 
     }
 
-    public void create(Object src, String fileName){
+    /**
+     * Create a json file correcponding to the src Object
+     *
+     * @param src      source object to serialize
+     * @param fileName filename name of the file WITHOUT .json extension
+     */
+    public void create(Object src, String fileName) {
 
         try (OutputStreamWriter writer = new OutputStreamWriter(
-                new FileOutputStream(fileName + ".json"), StandardCharsets.UTF_8)){
+                new FileOutputStream(fileName + ".json"), StandardCharsets.UTF_8)) {
 
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(src, writer);
 
-        } catch (IOException e){
+        } catch (IOException e) { /* File could not be opened or write */
             e.printStackTrace();
         }
 
