@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+/**
+ * Unit tests of methodes parse() and create() from class Json
+ *
+ * @author Do Vale Lopes Miguel
+ */
 public class JsonTest {
 
     static private class TestClass {
@@ -146,21 +151,21 @@ public class JsonTest {
     @Test
     public void jsonCreateShouldCreateAJsonFile() {
         final String EXPECTED_JSON = "{\n" +
-                        "  \"integer\": 42,\n" +
-                        "  \"decimal\": 4.2,\n" +
-                        "  \"string\": \"Classic TestClass construct\",\n" +
-                        "  \"strings\": [\n" +
-                        "    \"Classic\",\n" +
-                        "    \"TestClass\",\n" +
-                        "    \"construct\"\n" +
-                        "  ],\n" +
-                        "  \"arrayInnerClass\": [\n" +
-                        "    {\n" +
-                        "      \"a\": 4,\n" +
-                        "      \"b\": 2\n" +
-                        "    }\n" +
-                        "  ]\n" +
-                        "}";
+                "  \"integer\": 42,\n" +
+                "  \"decimal\": 4.2,\n" +
+                "  \"string\": \"Classic TestClass construct\",\n" +
+                "  \"strings\": [\n" +
+                "    \"Classic\",\n" +
+                "    \"TestClass\",\n" +
+                "    \"construct\"\n" +
+                "  ],\n" +
+                "  \"arrayInnerClass\": [\n" +
+                "    {\n" +
+                "      \"a\": 4,\n" +
+                "      \"b\": 2\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
 
         final String FILENAME = "jsonTest";
         final int BUFFER_SIZE = 300;
