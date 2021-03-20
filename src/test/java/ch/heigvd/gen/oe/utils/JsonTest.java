@@ -47,7 +47,7 @@ public class JsonTest {
         }
 
         Json parser = new Json();
-        test = parser.read(FILENAME, TestClass.class);
+        test = parser.parse(FILENAME, TestClass.class);
 
         /* Delete json file */
         try {
@@ -82,7 +82,7 @@ public class JsonTest {
         }
 
         Json parser = new Json();
-        test = parser.read(FILENAME, TestClass.class);
+        test = parser.parse(FILENAME, TestClass.class);
 
         /* Delete json file */
         try {
@@ -115,7 +115,7 @@ public class JsonTest {
         }
 
         Json parser = new Json();
-        tests = parser.read(FILENAME, TestClass[].class);
+        tests = parser.parse(FILENAME, TestClass[].class);
 
         /* Delete json file */
         try {

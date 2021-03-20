@@ -8,15 +8,14 @@ import java.nio.charset.StandardCharsets;
 public class Json {
 
     /**
-     * Read a json file and return an instance of the class defined
+     * Open, read and parse a json file and return an instance of the class defined
      * @param filename name of json file
      * @param type type of class to return
      * @param <T> class where to retrieve data
      * @return an instance of the class defined or null if an I/O error occurred
      */
-    public <T> T read(String filename, Class<T> type){
+    public <T> T parse (String filename, Class<T> type){
 
-        /* Open, read and parse json file */
         try (BufferedReader in = new BufferedReader(new InputStreamReader(
                 new FileInputStream(filename), StandardCharsets.UTF_8))) {
 
