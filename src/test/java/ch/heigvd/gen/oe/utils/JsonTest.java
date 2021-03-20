@@ -20,7 +20,21 @@ public class JsonTest {
         private String[] strings;
         private ArrayList<innerClass> arrayInnerClass;
 
+        TestClass() {
+            integer = 42;
+            decimal = 4.2;
+            string = "Classic TestClass construct";
+            strings = new String[]{"Classic", "TestClass", "construct"};
+            arrayInnerClass = new ArrayList<>();
+            arrayInnerClass.add(new innerClass());
+        }
+
         private class innerClass {
+            innerClass() {
+                a = 4;
+                b = 2;
+            }
+
             private int a, b;
         }
     }
@@ -96,8 +110,9 @@ public class JsonTest {
         assertEquals(2, test.arrayInnerClass.get(0).b);
     }
 
+
     @Test
-    public void jsonParserShouldWorkWithMultipleObjects(){
+    public void jsonParserShouldWorkWithMultipleObjects() {
 
         final String FILENAME = "jsonTest.json";
         final String JSON_STRING = "[{\"decimal\": 4.2}, {\"decimal\": 4.2}, {\"decimal\": 4.2}]";
@@ -127,5 +142,118 @@ public class JsonTest {
         assertEquals(3, tests.length);
     }
 
+
+    @Test
+    public void jsonCreateShouldCreateAJsonFile() {
+        final String EXPECTED_JSON = "{\n" +
+                        "  \"integer\": 42,\n" +
+                        "  \"decimal\": 4.2,\n" +
+                        "  \"string\": \"Classic TestClass construct\",\n" +
+                        "  \"strings\": [\n" +
+                        "    \"Classic\",\n" +
+                        "    \"TestClass\",\n" +
+                        "    \"construct\"\n" +
+                        "  ],\n" +
+                        "  \"arrayInnerClass\": [\n" +
+                        "    {\n" +
+                        "      \"a\": 4,\n" +
+                        "      \"b\": 2\n" +
+                        "    }\n" +
+                        "  ]\n" +
+                        "}";
+
+        final String FILENAME = "jsonTest";
+        final int BUFFER_SIZE = 300;
+
+        Json json = new Json();
+        json.create(new TestClass(), FILENAME);
+
+        int nbChars = 0;
+        char[] buffer = new char[BUFFER_SIZE];
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FILENAME + ".json"), StandardCharsets.UTF_8))) {
+            while (nbChars != -1) {
+                nbChars = in.read(buffer);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /* Delete json file */
+        try {
+            Files.deleteIfExists(Path.of(FILENAME + ".json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(EXPECTED_JSON, new String(buffer).trim());
+    }
+
+
+    @Test
+    public void jsonCreateShoulWorkWithArrayObjects() {
+        final String EXPECTED_JSON = "[\n" +
+                "  {\n" +
+                "    \"integer\": 42,\n" +
+                "    \"decimal\": 4.2,\n" +
+                "    \"string\": \"Classic TestClass construct\",\n" +
+                "    \"strings\": [\n" +
+                "      \"Classic\",\n" +
+                "      \"TestClass\",\n" +
+                "      \"construct\"\n" +
+                "    ],\n" +
+                "    \"arrayInnerClass\": [\n" +
+                "      {\n" +
+                "        \"a\": 4,\n" +
+                "        \"b\": 2\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"integer\": 42,\n" +
+                "    \"decimal\": 4.2,\n" +
+                "    \"string\": \"Classic TestClass construct\",\n" +
+                "    \"strings\": [\n" +
+                "      \"Classic\",\n" +
+                "      \"TestClass\",\n" +
+                "      \"construct\"\n" +
+                "    ],\n" +
+                "    \"arrayInnerClass\": [\n" +
+                "      {\n" +
+                "        \"a\": 4,\n" +
+                "        \"b\": 2\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  }\n" +
+                "]";
+
+        final String FILENAME = "jsonTest";
+        final int BUFFER_SIZE = 3000;
+
+        Json json = new Json();
+        json.create(new TestClass[]{new TestClass(), new TestClass()}, FILENAME);
+
+        int nbChars = 0;
+        char[] buffer = new char[BUFFER_SIZE];
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(
+                new FileInputStream(FILENAME + ".json"), StandardCharsets.UTF_8))) {
+            while (nbChars != -1) {
+                nbChars = in.read(buffer);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /* Delete json file */
+        try {
+            Files.deleteIfExists(Path.of(FILENAME + ".json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(EXPECTED_JSON, new String(buffer).trim());
+    }
 
 }
