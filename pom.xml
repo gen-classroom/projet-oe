@@ -29,7 +29,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>statique</finalName>
+                            <finalName>projet-oe</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>src/assembly/assembly.xml</descriptor>
@@ -63,6 +63,12 @@
             <artifactId>junit-jupiter</artifactId>
             <version>5.7.1</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency> 
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark-all</artifactId>
+            <version>0.62.2</version>
         </dependency>
 
     </dependencies>
