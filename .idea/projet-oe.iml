@@ -12,7 +12,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.2" level="project" />
     <orderEntry type="library" name="Maven: info.picocli:picocli:4.6.1" level="project" />
+
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
     <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-all:0.62.2" level="project" />
     <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark:0.62.2" level="project" />
     <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-ext-abbreviation:0.62.2" level="project" />
