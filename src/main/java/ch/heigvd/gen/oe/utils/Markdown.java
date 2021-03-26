@@ -1,5 +1,10 @@
 package ch.heigvd.gen.oe.utils;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,7 +12,7 @@ import java.io.IOException;
 /**
  * Generate Markdown page
  *
- * author: Fiona Gamboni
+ * author: Fiona Gamboni, Gaétan Zwick
  */
 public class Markdown {
 
@@ -55,6 +60,35 @@ public class Markdown {
         writer.write(TEMPLATE);
         writer.close();
         return page;
+    }
+
+    /**
+     * Convert markdown data to html format string
+     * @param markdown without metadata
+     * @return String of markdown in html format
+     */
+    public String toHtml(String markdown) {
+        MutableDataSet options = new MutableDataSet();
+
+        Parser parser = Parser.builder(options).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+
+        Node document = parser.parse(markdown);
+        return renderer.render(document);  // "<p>This is <em>Sparta</em></p>\n"
+    }
+
+    /**
+     * Separate the metadata and markdown data
+     * @param markdown with metadata separated with ==!==
+     * @return String array of size 2, first is data, second is markdown data
+     * @throws RuntimeException - is the markdown doesn't have the ==!== separator
+     */
+    public String[] getMetadata(String markdown) throws RuntimeException {
+        if (markdown.contains("==!==")) {
+            return markdown.split("==!==", 2);
+        } else {
+            throw new RuntimeException("Missing separator in markdown file : Missing ==!==");
+        }
     }
 
 }
