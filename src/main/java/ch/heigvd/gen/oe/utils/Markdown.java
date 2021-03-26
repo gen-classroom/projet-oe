@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Generate Markdown page
+ *
+ * author: Fiona Gamboni
+ */
 public class Markdown {
 
     private static final String TEMPLATE = "titre:\n" +
@@ -16,7 +21,7 @@ public class Markdown {
      * @param filename : filename
      * @return the new page
      */
-    public static File create(String filename) {
+    public File create(String filename) {
         try {
             File page = new File(filename + ".md");
             return pageCreation(page);
@@ -30,14 +35,8 @@ public class Markdown {
      * Create the default markdown page named index.md
      * @return the new page
      */
-    public static File create() {
-        try {
-            File page = new File("index.md");
-            return pageCreation(page);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public File create() {
+        return create("index");
     }
 
     /**
@@ -46,11 +45,11 @@ public class Markdown {
      * @return the new page
      * @throws IOException
      */
-    private static File pageCreation(File page) throws IOException {
+    private File pageCreation(File page) throws IOException {
         if (page.createNewFile()) {
             System.out.println("File is created!");
         } else {
-            System.out.println("File already exists.");
+            System.out.println("File already exists, file will be overwritten");
         }
         FileWriter writer = new FileWriter(page);
         writer.write(TEMPLATE);
