@@ -9,8 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests of methodes create(), pageCreation(),
@@ -129,5 +129,55 @@ public class MarkdownTest {
         String[] actualOutput = markdown.getMetadata(markDownWithMetadata);
 
         assertArrayEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void getMetadataShouldReturnRuntimeErrorWhenNoOrWrongSeparatorInGivenMarkdown() {
+        String markDownWithMetadataButNoSeparator =
+                """
+                titre: Mon premier article
+                auteur: Bertil Chapuis
+                date: 2021-03-10
+                # Mon premier article
+                ## Mon sous-titre
+                Le contenu de mon article.
+                ![Une image](./image.png)""";
+
+        String markDownWithMetadataButWrongSeparator =
+                """
+                titre: Mon premier article
+                auteur: Bertil Chapuis
+                date: 2021-03-10
+                ==!!==
+                # Mon premier article
+                ## Mon sous-titre
+                Le contenu de mon article.
+                ![Une image](./image.png)""";
+
+        String markDownWithMetadataButMisplacedSeparator =
+                """
+                titre: Mon premier article
+                auteur: Bertil Chapuis
+                date: 2021-03-10==!==
+                # Mon premier article
+                ## Mon sous-titre
+                Le contenu de mon article.
+                ![Une image](./image.png)""";
+
+        String[] expectedOutput = {
+                """
+                titre: Mon premier article
+                auteur: Bertil Chapuis
+                date: 2021-03-10""",
+                """ 
+                # Mon premier article
+                ## Mon sous-titre
+                Le contenu de mon article.
+                ![Une image](./image.png)"""
+        };
+
+        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
+        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
+        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
     }
 }
