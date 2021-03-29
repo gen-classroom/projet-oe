@@ -1,0 +1,61 @@
+package ch.heigvd.gen.oe.command;
+
+import ch.heigvd.gen.oe.Oe;
+import org.junit.jupiter.api.Test;
+import picocli.CommandLine;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+
+public class InitTest {
+
+    private void deleteDir(File dir) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                deleteDir(f);
+            }
+        }
+        dir.delete();
+    }
+
+    @Test
+    public void initShouldCreateSiteDirectoryWithRelativePath() {
+        final String DIR_NAME = "site";
+
+        // Exec command
+        new CommandLine(new Oe()).execute("init", DIR_NAME);
+
+        // Check if dir exist
+        File dir = new File("./" + DIR_NAME);
+        boolean dirExists = dir.exists();
+
+        // Clean
+        if (dirExists) {
+            deleteDir(dir);
+        }
+
+        assertTrue(dirExists);
+    }
+
+    @Test
+    public void initShouldCreateSiteDirectoryWithAbsolutePath() {
+        final String DIR_NAME = "site";
+        final String CURRENT_DIR = System.getProperty("user.dir");
+
+        // Exec command
+        new CommandLine(new Oe()).execute("init", CURRENT_DIR + "/" + DIR_NAME);
+
+        // Check if dir exist
+        File dir = new File(CURRENT_DIR + "/" + DIR_NAME);
+        boolean dirExists = dir.exists();
+
+        // Clean
+        if (dirExists) {
+            deleteDir(dir);
+        }
+
+        assertTrue(dirExists);
+    }
+}
