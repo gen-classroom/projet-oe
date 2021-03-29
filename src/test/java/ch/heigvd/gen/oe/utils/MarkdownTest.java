@@ -107,8 +107,9 @@ public class MarkdownTest {
                 """
                 titre: Mon premier article
                 auteur: Bertil Chapuis
-                date: 2021-03-10
-                ==!==
+                date: 2021-03-10"""
+                + Markdown.LINEBREAK_TYPE + Markdown.METADATA_SEPARATOR + Markdown.LINEBREAK_TYPE +
+                """
                 # Mon premier article
                 ## Mon sous-titre
                 Le contenu de mon article.
@@ -148,7 +149,7 @@ public class MarkdownTest {
                 titre: Mon premier article
                 auteur: Bertil Chapuis
                 date: 2021-03-10
-                ==!!==
+                --oe-
                 # Mon premier article
                 ## Mon sous-titre
                 Le contenu de mon article.
@@ -158,26 +159,14 @@ public class MarkdownTest {
                 """
                 titre: Mon premier article
                 auteur: Bertil Chapuis
-                date: 2021-03-10==!==
+                date: 2021-03-10-oe--
                 # Mon premier article
                 ## Mon sous-titre
                 Le contenu de mon article.
                 ![Une image](./image.png)""";
-
-        String[] expectedOutput = {
-                """
-                titre: Mon premier article
-                auteur: Bertil Chapuis
-                date: 2021-03-10""",
-                """ 
-                # Mon premier article
-                ## Mon sous-titre
-                Le contenu de mon article.
-                ![Une image](./image.png)"""
-        };
-
+        
         assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
-        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
-        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
+        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButWrongSeparator));
+        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButMisplacedSeparator));
     }
 }
