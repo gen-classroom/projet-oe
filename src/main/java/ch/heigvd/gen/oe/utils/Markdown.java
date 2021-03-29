@@ -19,10 +19,13 @@ import java.util.Arrays;
  */
 public class Markdown {
 
-    private static final String TEMPLATE = "titre:\n" +
-            "auteur:\n" +
-            "date: "+java.time.LocalDate.now()+"\n" +
-            "---\n#Write your page in markdown";
+    static final char LINEBREAK_TYPE = '\n';
+    static final String METADATA_SEPARATOR = "---";
+
+    private static final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
+            "auteur:" + LINEBREAK_TYPE +
+            "date: " + java.time.LocalDate.now() + LINEBREAK_TYPE +
+            METADATA_SEPARATOR + LINEBREAK_TYPE + "#Write your page in markdown";
 
     /**
      * Create a new markdown page with a given name
@@ -84,16 +87,16 @@ public class Markdown {
 
     /**
      * Separate the metadata and markdown data
-     * @param markdown with metadata separated with ==!==
+     * @param markdown with metadata separated by LINEBREAK_TYPE + METADATA_SEPARATOR + LINEBREAK_TYPE
      * @return String array of size 2, first is data, second is markdown data
-     * @throws RuntimeException - is the markdown doesn't have the ==!== separator
+     * @throws RuntimeException - is the markdown doesn't have the separator
      */
-    // todo : support other line breaks ?
     public String[] getMetadata(String markdown) throws RuntimeException {
-        if (markdown.contains("\n==!==\n")) {
-            return markdown.split("\n==!==\n", 2);
+        String separator = LINEBREAK_TYPE + METADATA_SEPARATOR + LINEBREAK_TYPE;
+        if (markdown.contains(separator)) {
+            return markdown.split(separator, 2);
         } else {
-            throw new RuntimeException("Missing separator in markdown file : Missing ==!==");
+            throw new RuntimeException("Missing separator in markdown file");
         }
     }
 
