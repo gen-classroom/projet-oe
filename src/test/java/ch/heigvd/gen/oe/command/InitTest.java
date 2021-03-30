@@ -55,7 +55,33 @@ public class InitTest {
         if (dirExists) {
             deleteDir(dir);
         }
-
+        
         assertTrue(dirExists);
     }
+
+    @Test
+    public void initShouldCreateTheCorrectFilesAndDir() {
+        final String SITE_DIRNAME = "site";
+        final String[] GOALS = {"pages", "index.md", "config.json"};
+
+        // Exec command
+        new CommandLine(new Oe()).execute("init", SITE_DIRNAME);
+
+        // Check if each file exists inside repository SITE_DIRNAME
+        boolean fileNotPresent = false;
+        for (String filename : GOALS) {
+            File file = new File(SITE_DIRNAME + "/" + filename);
+            if (!file.exists()){
+                fileNotPresent = true;
+                break;
+            }
+        }
+
+        // Clean
+        deleteDir(new File(SITE_DIRNAME));
+
+        assertFalse(fileNotPresent);
+    }
+
+
 }
