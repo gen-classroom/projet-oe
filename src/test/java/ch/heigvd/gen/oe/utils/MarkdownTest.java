@@ -75,7 +75,7 @@ public class MarkdownTest {
                 + "<pre><code class=\"language-js\">var foo = 'bar';\n"
 
                 + "function baz(s) {\n"
-                +   "return foo + ':' + s;\n"
+                + "return foo + ':' + s;\n"
                 + "}\n"
                 + "</code></pre>\n"
                 + "<p>Or inline code like <code>var foo = 'bar';</code>.</p>\n"
@@ -86,7 +86,7 @@ public class MarkdownTest {
 
         outputHtml = markdown.toHtml(inputMarkdown);
 
-        assertEquals(correctHtml,outputHtml);
+        assertEquals(correctHtml, outputHtml);
     }
 
 
@@ -142,10 +142,10 @@ public class MarkdownTest {
                 + "## Mon sous-titre\n"
                 + "Le contenu de mon article.\n"
                 + "![Une image](./image.png)";
-        
-        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
-        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButWrongSeparator));
-        assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButMisplacedSeparator));
+
+        assertThrows(RuntimeException.class, () -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
+        assertThrows(RuntimeException.class, () -> markdown.getMetadata(markDownWithMetadataButWrongSeparator));
+        assertThrows(RuntimeException.class, () -> markdown.getMetadata(markDownWithMetadataButMisplacedSeparator));
     }
 
 }
