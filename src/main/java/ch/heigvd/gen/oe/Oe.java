@@ -12,7 +12,7 @@ import picocli.CommandLine.Command;
         name = "projet-oe",
         description = "A brand new static site generator.",
         subcommands = {Init.class, Clean.class, Build.class, Serve.class})
-class Oe implements Callable<Integer> {
+public class Oe implements Callable<Integer> {
 
     public static void main(String... args) {
         int exitCode = new CommandLine(new Oe()).execute(args);
