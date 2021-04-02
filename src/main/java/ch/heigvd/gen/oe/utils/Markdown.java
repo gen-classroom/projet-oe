@@ -29,9 +29,9 @@ public class Markdown {
         try {
             File page = new File(filename + ".md");
             if (page.createNewFile()) {
-                System.out.println("File is created!");
+                System.out.println("File " + filename + ".md has been created!");
             } else {
-                System.out.println("File already exists, file will be overwritten");
+                System.out.println("File " + filename + ".md already exists, file will be overwritten");
             }
             FileWriter writer = new FileWriter(page);
             writer.write(TEMPLATE);

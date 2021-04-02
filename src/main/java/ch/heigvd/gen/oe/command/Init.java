@@ -50,7 +50,7 @@ public class Init implements Callable<Integer> {
         if (create) {
             System.out.println("The directory " + dirName + " has been created!");
         } else {
-            System.out.println("The directory " + dirName + " already exists");
+            System.out.println("The directory " + dirName + " already exists, files will be overwritten");
         }
     }
 }
