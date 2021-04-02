@@ -10,12 +10,14 @@ import java.util.function.Consumer;
 public class DFSFileExplorer {
 
     private final Consumer<File> function;
+    private final boolean pre;
 
-    public DFSFileExplorer(Consumer<File> function) {
+    public DFSFileExplorer(Consumer<File> function, boolean pre) {
         if (function == null) {
             throw new NullPointerException("Function must exist");
         }
         this.function = function;
+        this.pre = pre;
     }
 
     public void visit(File root) throws InvocationTargetException, IllegalAccessException {
@@ -26,9 +28,14 @@ public class DFSFileExplorer {
         if (files != null) {
             Arrays.sort(files);
             for (File f : files) {
+                if (pre) {
+                    function.accept(root);
+                }
                 visit(f);
             }
         }
-        function.accept(root);
+        if (!pre) {
+            function.accept(root);
+        }
     }
 }
