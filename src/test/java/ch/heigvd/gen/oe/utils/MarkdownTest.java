@@ -34,7 +34,7 @@ public class MarkdownTest {
                 + "* More\n"
                 + "> Blockquote\n"
                 + "\n"
-                +"And **bold**, *italics*, and even *italics and later **bold***. Even ~~strikethrough~~. [A link](https://markdowntohtml.com) to somewhere.\n"
+                + "And **bold**, *italics*, and even *italics and later **bold***. Even ~~strikethrough~~. [A link](https://markdowntohtml.com) to somewhere.\n"
                 + "\n"
                 + "And code highlighting:\n"
                 + "```js\n"
