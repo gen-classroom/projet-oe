@@ -24,9 +24,8 @@ public class Markdown {
     /**
      * Create a new markdown page with a given name
      * @param filename : filename
-     * @return the new page
      */
-    public File create(String filename) {
+    public void create(String filename) {
         try {
             File page = new File(filename + ".md");
             if (page.createNewFile()) {
@@ -37,11 +36,9 @@ public class Markdown {
             FileWriter writer = new FileWriter(page);
             writer.write(TEMPLATE);
             writer.close();
-            return page;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     /**
