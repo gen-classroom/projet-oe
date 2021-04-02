@@ -8,6 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 
+/**
+ * Unit tests of command init
+ *
+ * @author Do Vale Lopes Miguel
+ */
 public class InitTest {
 
     private void deleteDir(File dir) {
@@ -55,7 +60,7 @@ public class InitTest {
         if (dirExists) {
             deleteDir(dir);
         }
-        
+
         assertTrue(dirExists);
     }
 
@@ -82,6 +87,5 @@ public class InitTest {
 
         assertFalse(fileNotPresent);
     }
-
 
 }
