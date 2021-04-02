@@ -1,10 +1,9 @@
 package ch.heigvd.gen.oe.utils;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -164,9 +163,37 @@ public class MarkdownTest {
                 ## Mon sous-titre
                 Le contenu de mon article.
                 ![Une image](./image.png)""";
-        
+
         assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
         assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButWrongSeparator));
         assertThrows(RuntimeException.class,() -> markdown.getMetadata(markDownWithMetadataButMisplacedSeparator));
+    }
+
+    @Test
+    public void createShouldCreateANewIndexPageFromTemplate() {
+
+        final char LINEBREAK_TYPE = '\n';
+        final String METADATA_SEPARATOR = "---";
+        final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
+                "auteur:" + LINEBREAK_TYPE +
+                "date: " + java.time.LocalDate.now() /* do not test at 23:59:59... */ + LINEBREAK_TYPE +
+                METADATA_SEPARATOR + LINEBREAK_TYPE + "#Write your page in markdown";
+        PrintWriter pw = null;
+
+        try {
+            File actualOutput = markdown.create("src/test/java/ch/heigvd/gen/oe/utils/tempFile/index_file_actual");
+            File expectedOutput = new File("src/test/java/ch/heigvd/gen/oe/utils/tempFile/index_file_expected.md");
+            pw = new PrintWriter(expectedOutput);
+            pw.print(TEMPLATE);
+            pw.flush();
+            assertTrue(FileUtils.contentEquals(actualOutput, expectedOutput), "The files differ!");
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            assert pw != null;
+            pw.close();
+        }
+
     }
 }
