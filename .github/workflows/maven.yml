@@ -19,6 +19,6 @@ jobs:
         with:
           java-version: 11
       - name: Install the dependencies
-        run: mvn clean install -DskipTests=true
+        run: mvn -B package --file pom.xml
       - name: Run the tests
         run: mvn test
