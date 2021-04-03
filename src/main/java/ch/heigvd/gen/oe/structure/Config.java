@@ -6,10 +6,10 @@ package ch.heigvd.gen.oe.structure;
  * @author Do Vale Lopes Miguel
  */
 public class Config {
-    private String title;
-    private String description;
-    private String domain;
-    private String language;
+    private String title = "";
+    private String description = "";
+    private String domain = "";
+    private String language = "";
 
     public String getDescription() {
         return description;
