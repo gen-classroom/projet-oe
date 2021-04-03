@@ -1,23 +1,32 @@
 package ch.heigvd.gen.oe.command;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
-import java.util.zip.InflaterOutputStream;
 
 import ch.heigvd.gen.oe.utils.DFSFileExplorer;
 import ch.heigvd.gen.oe.utils.Markdown;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
+/**
+ * Subcommand init
+ *
+ * author: Miguel Do Vale Lopes
+ */
 @Command(name = "build", description = "Build a static site")
 public class Build implements Callable<Integer> {
-
     @CommandLine.Parameters(paramLabel = "</path/site>", description = "directory to build site")
     private String dirSiteName;
 
+    /**
+     * Call subcommand build to build the initialised site
+     *
+     * @return 0
+     */
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
 
         // Create build dir
         File build = new File(dirSiteName + "/build");
@@ -27,13 +36,17 @@ public class Build implements Callable<Integer> {
             System.out.println("The directory " + build.getName() + " already exists");
         }
 
-        // Create pages directories
+        // Treat index.md
+        convertToHtml(dirSiteName + "/index.md", dirSiteName + "/build/index.md");
+
+        // Treat pages directory
         DFSFileExplorer dfsPre = new DFSFileExplorer((File file) -> {
 
             String path = file.getPath();
             String newPath = path.substring(0, dirSiteName.length())
                     + "/build" + path.substring(dirSiteName.length());
 
+            // File is a dir -> create dir
             if (file.isDirectory()) {
                 File dir = new File(newPath);
                 if (dir.mkdir()) {
@@ -43,7 +56,7 @@ public class Build implements Callable<Integer> {
                 }
             }
 
-            // Markdown file
+            // File is a markdown file -> convert to html
             else if (file.getName().endsWith(".md")) {
                 convertToHtml(path, newPath);
             }
@@ -55,19 +68,28 @@ public class Build implements Callable<Integer> {
 
         }, true);
 
-        dfsPre.visit(new File(dirSiteName + "/pages"));
+        try {
+            dfsPre.visit(new File(dirSiteName + "/pages"));
 
-        //TODO index a faire
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         return 0;
     }
 
-    private void copy(String srcFileName, String dstFileName) {
+    /**
+     * Copy file in srcPathName to dstPathName
+     *
+     * @param srcPathName the path of the source file to copy
+     * @param dstPathName the destination path to copy the src file
+     */
+    private void copy(String srcPathName, String dstPathName) {
 
         try (BufferedReader is = new BufferedReader(new InputStreamReader(
-                new FileInputStream(srcFileName), StandardCharsets.UTF_8));
+                new FileInputStream(srcPathName), StandardCharsets.UTF_8));
              PrintWriter os = new PrintWriter(new OutputStreamWriter(
-                     new FileOutputStream(dstFileName), StandardCharsets.UTF_8))) {
+                     new FileOutputStream(dstPathName), StandardCharsets.UTF_8))) {
 
             // Read from src file and write to dest file
             String line;
@@ -82,13 +104,19 @@ public class Build implements Callable<Integer> {
 
     }
 
-
-    private void convertToHtml(String srcFileName, String dstFileName) {
+    /**
+     * Convert to html the file in srcPathName and place it in dstPathName
+     *
+     * @param srcPathName source path of the markdown file to convert
+     * @param dstPathName destination path of the converted markdown file
+     * @apiNote use the same file name for src and dst, this function changes the '.md' to '.html'
+     */
+    private void convertToHtml(String srcPathName, String dstPathName) {
 
         try (BufferedReader is = new BufferedReader(new InputStreamReader(
-                new FileInputStream(srcFileName), StandardCharsets.UTF_8));
+                new FileInputStream(srcPathName), StandardCharsets.UTF_8));
              PrintWriter os = new PrintWriter(new OutputStreamWriter(
-                     new FileOutputStream(dstFileName.split(".md$")[0] + ".html"), StandardCharsets.UTF_8))) {
+                     new FileOutputStream(dstPathName.split(".md$")[0] + ".html"), StandardCharsets.UTF_8))) {
 
             // Read index file
             StringBuilder content = new StringBuilder();
@@ -109,11 +137,10 @@ public class Build implements Callable<Integer> {
             os.flush();
 
         } catch (FileNotFoundException e) {
-            System.err.println(srcFileName + " was not found, please check that you \"init\" before \"build\"");
+            System.err.println(srcPathName + " was not found, please check that you \"init\" before \"build\"");
 
         } catch (IOException e) {
             e.printStackTrace();
-
         }
 
     }
