@@ -3,7 +3,6 @@ on:
   pull_request:
     branches:
       - main
-      - sprint_1
 
 jobs:
   unit-test:
