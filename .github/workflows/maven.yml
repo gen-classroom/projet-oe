@@ -19,8 +19,8 @@ jobs:
         with:
           java-version: 11
       - name: Install the dependencies
-        working-directory: ./
+        working-directory: projet-oe/
         run: mvn clean install -DskipTests=true
       - name: Run the tests
-        working-directory: ./
+        working-directory: projet-oe/
         run: mvn test
