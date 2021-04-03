@@ -3,9 +3,7 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches-ignore:
-      - main
+      - sprint_1
 
 jobs:
   unit-test:
@@ -18,8 +16,6 @@ jobs:
         with:
           java-version: 11
       - name: Install the dependencies
-        working-directory: ./projet-oe
         run: mvn clean install -DskipTests=true
       - name: Run the tests
-        working-directory: ./projet-oe
         run: mvn test
