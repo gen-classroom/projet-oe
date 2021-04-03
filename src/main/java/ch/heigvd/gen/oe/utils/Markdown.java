@@ -25,7 +25,7 @@ public class Markdown {
     private static final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
             "auteur:" + LINEBREAK_TYPE +
             "date: " + java.time.LocalDate.now() + LINEBREAK_TYPE +
-            METADATA_SEPARATOR + LINEBREAK_TYPE + "#Write your page in markdown";
+            METADATA_SEPARATOR + LINEBREAK_TYPE + "# Write your page in markdown";
 
     /**
      * Create a new markdown page with a given name
