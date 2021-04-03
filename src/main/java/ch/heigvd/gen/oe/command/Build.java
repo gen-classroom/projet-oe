@@ -33,7 +33,7 @@ public class Build implements Callable<Integer> {
         if (build.mkdir()) {
             System.out.println("The directory " + build.getName() + " has been created!");
         } else {
-            System.out.println("The directory " + build.getName() + " already exists");
+            System.out.println("The directory " + build.getName() + " already exists, files will be overwritten");
         }
 
         // Treat index.md
@@ -52,7 +52,7 @@ public class Build implements Callable<Integer> {
                 if (dir.mkdir()) {
                     System.out.println("The directory " + dir.getName() + " has been created!");
                 } else {
-                    System.out.println("The directory " + dir.getName() + " already exists");
+                    System.out.println("The directory " + dir.getName() + " already exists, files will be overwritten");
                 }
             }
 
@@ -130,7 +130,7 @@ public class Build implements Callable<Integer> {
             String data = markdown.getMetadata(content.toString())[1];
 
             // Convert to html
-            String html = markdown.toHtml(data.toString());
+            String html = markdown.toHtml(data);
 
             // Create and write to index.html
             os.print(html);
