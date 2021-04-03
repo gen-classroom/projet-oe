@@ -15,14 +15,14 @@ import java.util.Arrays;
 /**
  * Generate Markdown page
  *
- * author: Fiona Gamboni, Gaétan Zwick
+ * authors: Fiona Gamboni, Gaétan Zwick
  */
 public class Markdown {
 
     static final char LINEBREAK_TYPE = '\n';
     static final String METADATA_SEPARATOR = "---";
 
-    private static final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
+    public static final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
             "auteur:" + LINEBREAK_TYPE +
             "date: " + java.time.LocalDate.now() + LINEBREAK_TYPE +
             METADATA_SEPARATOR + LINEBREAK_TYPE + "# Write your page in markdown";
