@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * Generate Markdown page
+ * Generate Markdown page, split metadata from data and convert Markdown to Html
  *
  * authors: Fiona Gamboni, Gaétan Zwick
  */
@@ -65,12 +65,12 @@ public class Markdown {
     }
 
     /**
-     * Separate the metadata and markdown data
+     * Split the metadata and markdown data
      * @param markdown with metadata separated by LINEBREAK_TYPE + METADATA_SEPARATOR + LINEBREAK_TYPE
      * @return String array of size 2, first is data, second is markdown data
      * @throws RuntimeException - is the markdown doesn't have the separator
      */
-    public String[] getMetadata(String markdown) throws RuntimeException {
+    public String[] split(String markdown) throws RuntimeException {
         String separator = LINEBREAK_TYPE + METADATA_SEPARATOR + LINEBREAK_TYPE;
         if (markdown.contains(separator)) {
             return markdown.split(separator, 2);

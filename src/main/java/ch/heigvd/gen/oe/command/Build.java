@@ -127,7 +127,7 @@ public class Build implements Callable<Integer> {
 
             // Get rid of metadata
             Markdown markdown = new Markdown();
-            String data = markdown.getMetadata(content.toString())[1];
+            String data = markdown.split(content.toString())[1];
 
             // Convert to html
             String html = markdown.toHtml(data);

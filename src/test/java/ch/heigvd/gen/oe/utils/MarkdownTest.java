@@ -108,7 +108,7 @@ public class MarkdownTest {
                         + "![Une image](./image.png)"
         };
 
-        String[] actualOutput = markdown.getMetadata(markDownWithMetadata);
+        String[] actualOutput = markdown.split(markDownWithMetadata);
 
         assertArrayEquals(expectedOutput, actualOutput);
     }
@@ -141,9 +141,9 @@ public class MarkdownTest {
                 + "Le contenu de mon article.\n"
                 + "![Une image](./image.png)";
 
-        assertThrows(RuntimeException.class, () -> markdown.getMetadata(markDownWithMetadataButNoSeparator));
-        assertThrows(RuntimeException.class, () -> markdown.getMetadata(markDownWithMetadataButWrongSeparator));
-        assertThrows(RuntimeException.class, () -> markdown.getMetadata(markDownWithMetadataButMisplacedSeparator));
+        assertThrows(RuntimeException.class, () -> markdown.split(markDownWithMetadataButNoSeparator));
+        assertThrows(RuntimeException.class, () -> markdown.split(markDownWithMetadataButWrongSeparator));
+        assertThrows(RuntimeException.class, () -> markdown.split(markDownWithMetadataButMisplacedSeparator));
     }
 
     @Test
