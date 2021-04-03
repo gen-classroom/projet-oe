@@ -24,13 +24,15 @@ public class DFSFileExplorer {
         if (root == null) {
             throw new NullPointerException("Root must exist");
         }
+
+        if (pre) {
+            function.accept(root);
+        }
+
         File[] files = root.listFiles();
         if (files != null) {
             Arrays.sort(files);
             for (File f : files) {
-                if (pre) {
-                    function.accept(root);
-                }
                 visit(f);
             }
         }
