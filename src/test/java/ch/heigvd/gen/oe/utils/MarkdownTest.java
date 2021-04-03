@@ -1,12 +1,9 @@
 package ch.heigvd.gen.oe.utils;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Gaétan Zwick
  */
 public class MarkdownTest {
+
     Markdown markdown = new Markdown();
 
     @Test
@@ -153,27 +151,31 @@ public class MarkdownTest {
 
         final char LINEBREAK_TYPE = '\n';
         final String METADATA_SEPARATOR = "---";
-        final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
-                "auteur:" + LINEBREAK_TYPE +
-                "date: " + java.time.LocalDate.now() /* do not test at 23:59:59... */ + LINEBREAK_TYPE +
-                METADATA_SEPARATOR + LINEBREAK_TYPE + "#Write your page in markdown";
-        PrintWriter pw = null;
+        final String TEMPLATE = "titre:" + LINEBREAK_TYPE
+                + "auteur:" + LINEBREAK_TYPE
+                + "date: " + java.time.LocalDate.now() /* do not test at 23:59:59... */ + LINEBREAK_TYPE
+                + METADATA_SEPARATOR + LINEBREAK_TYPE
+                + "# Write your page in markdown" + LINEBREAK_TYPE;
 
-        try {
-            File actualOutput = markdown.create("src/test/java/ch/heigvd/gen/oe/utils/tempFile/index_file_actual");
-            File expectedOutput = new File("src/test/java/ch/heigvd/gen/oe/utils/tempFile/index_file_expected.md");
-            pw = new PrintWriter(expectedOutput);
-            pw.print(TEMPLATE);
-            pw.flush();
-            assertTrue(FileUtils.contentEquals(actualOutput, expectedOutput), "The files differ!");
-            pw.close();
+        markdown.create("test");
+
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader is = new BufferedReader(new InputStreamReader(
+                new FileInputStream("test.md"), StandardCharsets.UTF_8))) {
+
+            String line;
+            while ((line = is.readLine()) != null) {
+                content.append(line).append(LINEBREAK_TYPE);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            assert pw != null;
-            pw.close();
         }
 
+        // clean
+        File file = new File("test.md");
+        file.delete();
+
+        assertEquals(TEMPLATE, content.toString());
     }
 
 }
