@@ -22,11 +22,11 @@ export PATH=$PATH:`pwd`/projet-oe/bin
 Executing `oe` should now produce the following result:
 
 ```
-oe
-Usage: oe [COMMAND]
+Usage: projet-oe [-v] [COMMAND]
 A brand new static site generator.
+  -v, --version   version of oe static site generator
 Commands:
-  init   Initialize a static site directory
+  init   Init a static site
   clean  Clean a static site
   build  Build a static site
   serve  Serve a static site
