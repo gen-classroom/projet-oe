@@ -13,11 +13,11 @@ public class StaticHttpServer {
 
     private HttpServer server;
 
-    StaticHttpServer(String baseDir) {
+    public StaticHttpServer(String baseDir) {
         BASEDIR = baseDir;
     }
 
-    void start() throws IOException {
+    public void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
         server.createContext("/static", new StaticFileHandler(BASEDIR));
