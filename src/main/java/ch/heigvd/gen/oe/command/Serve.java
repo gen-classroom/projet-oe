@@ -15,7 +15,7 @@ public class Serve implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
 
-        StaticHttpServer server = new StaticHttpServer(dirSiteName);
+        StaticHttpServer server = new StaticHttpServer(dirSiteName + "/build");
 
         server.start();
 
