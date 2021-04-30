@@ -17,6 +17,8 @@ public class Serve implements Callable<Integer> {
 
         server.start();
 
+        while (true) {}
+
         return 1;
     }
 }
