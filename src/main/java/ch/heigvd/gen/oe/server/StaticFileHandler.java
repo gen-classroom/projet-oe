@@ -34,7 +34,8 @@ public class StaticFileHandler implements HttpHandler {
         if (path.exists()) {
             ex.sendResponseHeaders(200, path.length());
             out.write(Files.readAllBytes(path.toPath()));
-
+        } else {
+            System.err.println("File not found: " + path.getAbsolutePath());
             ex.sendResponseHeaders(404, 0);
             out.write("404 file not found.".getBytes(StandardCharsets.UTF_8));
         }
