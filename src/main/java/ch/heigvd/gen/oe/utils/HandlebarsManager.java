@@ -1,12 +1,20 @@
 package ch.heigvd.gen.oe.utils;
 
 import ch.heigvd.gen.oe.structure.Page;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.FileTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to manage Handlebars
+ * <p>
+ * authors: Do Vale Lopes Miguel, Gamboni Fiona
+ */
 public class HandlebarsManager {
 
     private static final String DIRNAME_TEMPLATE = "templates";
@@ -19,7 +27,7 @@ public class HandlebarsManager {
 
     private static final String TEMPLATE_MENU = "<ul>\n" +
             "    <li>\n" +
-            "        <a href=\"/index,html\">home</a>\n" +
+            "        <a href=\"/index.html\">home</a>\n" +
             "    <li>\n" +
             "    {{#each}}\n" +
             "    <li>\n" +
@@ -34,19 +42,25 @@ public class HandlebarsManager {
             "    <title>{{site.title}} | {{title}}</title>\n" +
             "</head>\n" +
             "<body>\n" +
-            "    " + menu + "\n" +
+            "    {{{menu}}}\n" +
             "    {{{content}}}\n" +
             "</body>\n" +
             "</html>";
 
-
+    /**
+     * Constructor
+     *
+     * @param dirSiteName path to the site directory
+     */
     public HandlebarsManager(String dirSiteName) {
         this.dirSiteName = dirSiteName;
     }
 
 
+    /**
+     * Create template directory containing files FILENAME_MENU and FILENAME_LAYOUT
+     */
     public void createTemplate() {
-
         String templatePath = dirSiteName + "/" + DIRNAME_TEMPLATE;
 
         // Create template dir
@@ -78,8 +92,50 @@ public class HandlebarsManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * Parse Pages and return a string menu in html corresponding to TEMPLATE_MENU
+     *
+     * @param pages a list of Page to parse
+     * @return a string of the html menu
+     */
+    public String parseMenu(List<Page> pages) {
+        return parse(pages, FILENAME_MENU);
+    }
+
+    /**
+     * Parse a Page and return a string in html corresponding to TEMPLATE_PAGE
+     *
+     * @param page a Page to parse
+     * @return a string of the html page
+     */
+    public String parsePage(Page page) {
+        return parse(page, FILENAME_LAYOUT);
+    }
+
+    /**
+     * Parse an Object and return a string in html corresponding to templateFilename
+     *
+     * @param o                the Object to parse
+     * @param templateFilename a String corresponding to the Template to use
+     * @return a string of the html object
+     */
+    private String parse(Object o, String templateFilename) {
+        // Create handlebars parser
+        TemplateLoader loader = new FileTemplateLoader(dirSiteName + "/" + DIRNAME_TEMPLATE, EXTENSION_TYPE);
+        Handlebars handlebars = new Handlebars(loader);
+        handlebars.setPrettyPrint(true);
+
+        // Parse page
+        try {
+            Template templatePage = handlebars.compile(templateFilename);
+            return templatePage.apply(o);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
