@@ -22,9 +22,6 @@ public class HandlebarsManager {
     private static final String FILENAME_MENU = "menu";
     private static final String FILENAME_LAYOUT = "layout";
 
-    private final String dirSiteName;
-    private static String menu = "";
-
     private static final String TEMPLATE_MENU = "<ul>\n" +
             "    <li>\n" +
             "        <a href=\"/index.html\">home</a>\n" +
@@ -46,6 +43,8 @@ public class HandlebarsManager {
             "    {{{content}}}\n" +
             "</body>\n" +
             "</html>";
+    
+    private final String dirSiteName;
 
     /**
      * Constructor
