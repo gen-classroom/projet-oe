@@ -6,10 +6,35 @@ package ch.heigvd.gen.oe.structure;
  * @author Do Vale Lopes Miguel
  */
 public class Config {
-    private String title = "";
-    private String description = "";
-    private String domain = "";
-    private String language = "";
+    private final String title;
+    private final String description;
+    private final String domain;
+    private final String language;
+
+    /**
+     * Default constructor of Config
+     */
+    public Config() {
+        this.title = "";
+        this.description = "";
+        this.domain = "";
+        this.language = "";
+    }
+
+    /**
+     * Constructor of Config
+     *
+     * @param title       title of the website
+     * @param description description of the website
+     * @param domain      domain of the website
+     * @param language    language of the website
+     */
+    public Config(String title, String description, String domain, String language) {
+        this.title = title;
+        this.description = description;
+        this.domain = domain;
+        this.language = language;
+    }
 
     public String getDescription() {
         return description;
