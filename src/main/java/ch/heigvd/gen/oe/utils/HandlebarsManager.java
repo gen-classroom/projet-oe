@@ -43,7 +43,7 @@ public class HandlebarsManager {
             "    {{{content}}}\n" +
             "</body>\n" +
             "</html>";
-    
+
     private final String dirSiteName;
 
     /**
