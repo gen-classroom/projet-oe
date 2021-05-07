@@ -3,17 +3,23 @@ package ch.heigvd.gen.oe.command;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
+import ch.heigvd.gen.oe.structure.Config;
+import ch.heigvd.gen.oe.structure.Page;
 import ch.heigvd.gen.oe.utils.DFSFileExplorer;
+import ch.heigvd.gen.oe.utils.HandlebarsManager;
+import ch.heigvd.gen.oe.utils.Json;
 import ch.heigvd.gen.oe.utils.Markdown;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 /**
- * Subcommand init
+ * Subcommand build
  *
- * author: Miguel Do Vale Lopes
+ * author: Miguel Do Vale Lopes, Gamboni Fiona
  */
 @Command(name = "build", description = "Build a static site")
 public class Build implements Callable<Integer> {
@@ -27,7 +33,6 @@ public class Build implements Callable<Integer> {
      */
     @Override
     public Integer call() {
-
         // Create build dir
         File build = new File(dirSiteName + "/build");
         if (build.mkdir()) {
@@ -36,8 +41,11 @@ public class Build implements Callable<Integer> {
             System.out.println("The directory " + build.getName() + " already exists, files will be overwritten");
         }
 
-        // Treat index.md
-        convertToHtml(dirSiteName + "/index.md", dirSiteName + "/build/index.md");
+        // Get site config
+        Config config = new Json().parse(dirSiteName + "/config.json", Config.class);
+
+        // Init a list
+        final List<Page> pages = new ArrayList<>();
 
         // Treat pages directory
         DFSFileExplorer dfsPre = new DFSFileExplorer((File file) -> {
@@ -56,9 +64,9 @@ public class Build implements Callable<Integer> {
                 }
             }
 
-            // File is a markdown file -> convert to html
+            // File is a markdown file -> create Page
             else if (file.getName().endsWith(".md")) {
-                convertToHtml(path, newPath);
+                pages.add(createPage(path, config));
             }
 
             // Copy file
@@ -71,11 +79,89 @@ public class Build implements Callable<Integer> {
         try {
             dfsPre.visit(new File(dirSiteName + "/pages"));
 
+            // Generate menu
+            HandlebarsManager hbManager = new HandlebarsManager(dirSiteName);
+            String menu = hbManager.parseMenu(pages);
+
+            // Treat index.md
+            Page index = createPage(dirSiteName + "/index.md", config);
+            if (index == null) {
+                System.err.println("Could not convert index.md to .html");
+                return 1;
+            }
+            index.setMenu(menu);
+            convertToHtml(dirSiteName + "/index.md", dirSiteName + "/build/index.md");
+            writeToHtmlFile(hbManager.parsePage(index), dirSiteName + "/build/" + index.getFilename());
+
+
+            // Create html pages
+            for (Page page : pages) {
+                page.setMenu(menu);
+                writeToHtmlFile(hbManager.parsePage(page), dirSiteName + "/build/" + page.getFilename());
+            }
+
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
+        System.out.println();
         return 0;
+    }
+
+    private void writeToHtmlFile(String html, String dstPathName) {
+        try (PrintWriter os = new PrintWriter(new OutputStreamWriter(
+                     new FileOutputStream(dstPathName), StandardCharsets.UTF_8))) {
+
+            // Create and write page
+            os.print(html);
+            os.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Page createPage(String srcPathName, Config config) {
+
+        try (BufferedReader is = new BufferedReader(new InputStreamReader(
+                new FileInputStream(srcPathName), StandardCharsets.UTF_8))) {
+
+            // Read file
+            StringBuilder data = new StringBuilder();
+            String line;
+            while ((line = is.readLine()) != null) {
+                data.append(line).append("\n");
+            }
+
+            // Get metadata
+            Markdown markdown = new Markdown();
+            String[] mdData = markdown.split(data.toString());
+            String[] metadata = parseMetadata(mdData[0]);
+
+            // Get content in html
+            String html = markdown.toHtml(mdData[1]);
+
+            // Create page
+            String filename = srcPathName.substring(dirSiteName.length()).split(".md$")[0] + ".html";
+            return new Page(html, metadata[0], metadata[1], metadata[2], filename, config);
+
+        } catch (FileNotFoundException e) {
+            System.err.println(srcPathName + " was not found, please check that you \"init\" before \"build\"");
+            return null;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // TODO comment
+    private String[] parseMetadata(String metadata) {
+        Object[] tmp = metadata.lines().toArray();
+        String[] result = new String[tmp.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = ((String)tmp[i]).split(":", 2)[1];
+        }
+        return result;
     }
 
     /**
@@ -125,7 +211,7 @@ public class Build implements Callable<Integer> {
                 content.append(line).append("\n");
             }
 
-            // Get rid of metadata
+
             Markdown markdown = new Markdown();
             String data = markdown.split(content.toString())[1];
 
