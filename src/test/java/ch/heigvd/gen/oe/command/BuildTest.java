@@ -132,7 +132,7 @@ public class BuildTest {
         assertTrue(file.exists());
 
     }
-
+/*
     @AfterEach
     public void cleanBuild() {
         System.out.println("clean build");
@@ -156,5 +156,5 @@ public class BuildTest {
             e.printStackTrace();
         }
     }
-
+*/
 }
