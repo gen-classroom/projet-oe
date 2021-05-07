@@ -90,7 +90,6 @@ public class Build implements Callable<Integer> {
                 return 1;
             }
             index.setMenu(menu);
-            convertToHtml(dirSiteName + "/index.md", dirSiteName + "/build/index.md");
             writeToHtmlFile(hbManager.parsePage(index), dirSiteName + "/build/" + index.getFilename());
 
 
@@ -107,9 +106,15 @@ public class Build implements Callable<Integer> {
         return 0;
     }
 
+    /**
+     * Create an html File with html content
+     *
+     * @param html        String with html content
+     * @param dstPathName path of the file to be created
+     */
     private void writeToHtmlFile(String html, String dstPathName) {
         try (PrintWriter os = new PrintWriter(new OutputStreamWriter(
-                     new FileOutputStream(dstPathName), StandardCharsets.UTF_8))) {
+                new FileOutputStream(dstPathName), StandardCharsets.UTF_8))) {
 
             // Create and write page
             os.print(html);
@@ -120,6 +125,13 @@ public class Build implements Callable<Integer> {
         }
     }
 
+    /**
+     * Read and get informations of a file to create a Page
+     *
+     * @param srcPathName path of the file
+     * @param config      config
+     * @return a new Page
+     */
     private Page createPage(String srcPathName, Config config) {
 
         try (BufferedReader is = new BufferedReader(new InputStreamReader(
@@ -135,7 +147,7 @@ public class Build implements Callable<Integer> {
             // Get metadata
             Markdown markdown = new Markdown();
             String[] mdData = markdown.split(data.toString());
-            String[] metadata = parseMetadata(mdData[0]);
+            String[] metadata = splitMetadata(mdData[0]);
 
             // Get content in html
             String html = markdown.toHtml(mdData[1]);
@@ -154,12 +166,17 @@ public class Build implements Callable<Integer> {
         }
     }
 
-    // TODO comment
-    private String[] parseMetadata(String metadata) {
+    /**
+     * Split the metadata to convert them to an array of String
+     *
+     * @param metadata String metadata
+     * @return an array of String containing the metadata
+     */
+    private String[] splitMetadata(String metadata) {
         Object[] tmp = metadata.lines().toArray();
         String[] result = new String[tmp.length];
         for (int i = 0; i < result.length; i++) {
-            result[i] = ((String)tmp[i]).split(":", 2)[1];
+            result[i] = ((String) tmp[i]).split(":", 2)[1];
         }
         return result;
     }
@@ -183,47 +200,6 @@ public class Build implements Callable<Integer> {
                 os.println(line);
             }
             os.flush();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Convert to html the file in srcPathName and place it in dstPathName
-     *
-     * @param srcPathName source path of the markdown file to convert
-     * @param dstPathName destination path of the converted markdown file
-     * @apiNote use the same file name for src and dst, this function changes the '.md' to '.html'
-     */
-    private void convertToHtml(String srcPathName, String dstPathName) {
-
-        try (BufferedReader is = new BufferedReader(new InputStreamReader(
-                new FileInputStream(srcPathName), StandardCharsets.UTF_8));
-             PrintWriter os = new PrintWriter(new OutputStreamWriter(
-                     new FileOutputStream(dstPathName.split(".md$")[0] + ".html"), StandardCharsets.UTF_8))) {
-
-            // Read index file
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = is.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-
-
-            Markdown markdown = new Markdown();
-            String data = markdown.split(content.toString())[1];
-
-            // Convert to html
-            String html = markdown.toHtml(data);
-
-            // Create and write to index.html
-            os.print(html);
-            os.flush();
-
-        } catch (FileNotFoundException e) {
-            System.err.println(srcPathName + " was not found, please check that you \"init\" before \"build\"");
 
         } catch (IOException e) {
             e.printStackTrace();
