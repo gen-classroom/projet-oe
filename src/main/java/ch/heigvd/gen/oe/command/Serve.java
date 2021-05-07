@@ -1,5 +1,6 @@
 package ch.heigvd.gen.oe.command;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
@@ -13,14 +14,14 @@ public class Serve implements Callable<Integer> {
     private String dirSiteName;
 
     @Override
-    public Integer call() throws Exception {
-
-        StaticHttpServer server = new StaticHttpServer(dirSiteName + "/build");
-
-        server.start();
-
-        while (true) {}
-
-        // return 1;
+    public Integer call() {
+        try {
+            StaticHttpServer server = new StaticHttpServer(dirSiteName);
+            boolean serverStarted = server.start();
+            while (serverStarted) ;
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+        return 1;
     }
 }

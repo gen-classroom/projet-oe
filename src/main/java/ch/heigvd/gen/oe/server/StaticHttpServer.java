@@ -2,12 +2,14 @@ package ch.heigvd.gen.oe.server;
 
 import com.sun.net.httpserver.HttpServer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class StaticHttpServer {
 
-    private static String BASEDIR /* = "com/rememberjava/http" */;
+    private static String BASEDIR;
 
     private static final int PORT = 8080;
 
@@ -17,12 +19,22 @@ public class StaticHttpServer {
         BASEDIR = baseDir;
     }
 
-    public void start() throws IOException {
+    public boolean start() throws IOException {
+        // new http server
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        server.createContext("/static", new StaticFileHandler(BASEDIR));
+        // check if BASEDIR/build exist
+        File file = new File(BASEDIR + "/build");
+        file.createNewFile();
+        if (!file.exists())
+            throw new FileNotFoundException("The specified directory does not contains a \"build\" folder\nServer not started");
 
+        // add server context
+        server.createContext("/", new StaticFileHandler(BASEDIR + "/build"));
+        // start the server
         server.start();
+
+        return true;
     }
 
     public void stop() {
