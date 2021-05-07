@@ -10,7 +10,9 @@ public class Page {
     private final String date;
     private final String title;
     private final String author;
-    private final Config config;
+    private final String filename;
+    private final Config site;
+    private String menu = "";
 
     /**
      * Page constructor
@@ -21,13 +23,18 @@ public class Page {
      * @param author  author of the page
      * @param config  config of the page
      */
-    public Page(String content, String date, String title, String author, Config config) {
+    public Page(String content, String date, String title, String author, String filename, Config config) {
         this.content = content;
         this.date = date;
         this.title = title;
         this.author = author;
-        this.config = config;
+        this.filename = filename;
+        this.site = config;
     }
+
+    public String getMenu() {return menu;}
+
+    public void setMenu(String menu) { this.menu = menu; }
 
     public String getContent() {
         return content;
@@ -45,7 +52,12 @@ public class Page {
         return author;
     }
 
-    public Config getConfig() {
-        return config;
+    public String getFilename() {
+        return filename;
     }
+
+    public Config getSite() {
+        return site;
+    }
+
 }
