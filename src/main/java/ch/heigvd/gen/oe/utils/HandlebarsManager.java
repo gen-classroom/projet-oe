@@ -28,7 +28,7 @@ public class HandlebarsManager {
             "    <li>\n" +
             "    {{#each}}\n" +
             "    <li>\n" +
-            "        <a href=\"/pages/{{{title}}}.html\">{{{title}}}</a>\n" +
+            "        <a href=\"/pages/{{{filename}}}\">{{{title}}}</a>\n" +
             "    </li>\n" +
             "    {{/each}}\n" +
             "</ul>";
