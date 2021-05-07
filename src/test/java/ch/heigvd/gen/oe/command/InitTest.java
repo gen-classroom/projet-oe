@@ -67,7 +67,7 @@ public class InitTest {
     @Test
     public void initShouldCreateTheCorrectFilesAndDir() {
         final String SITE_DIRNAME = "site";
-        final String[] GOALS = {"pages", "index.md", "config.json"};
+        final String[] GOALS = {"pages", "index.md", "config.json", "templates", "templates/layout.html", "templates/menu.html"};
 
         // Exec command
         new CommandLine(new Oe()).execute("init", SITE_DIRNAME);
