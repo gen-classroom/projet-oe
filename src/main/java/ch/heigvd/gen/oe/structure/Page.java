@@ -10,7 +10,8 @@ public class Page {
     private final String date;
     private final String title;
     private final String author;
-    private final Config config;
+    private final Config site;
+    private String menu = "";
 
     /**
      * Page constructor
@@ -26,8 +27,12 @@ public class Page {
         this.date = date;
         this.title = title;
         this.author = author;
-        this.config = config;
+        this.site = config;
     }
+
+    public String getMenu() {return menu;}
+
+    public void setMenu(String menu) { this.menu = menu; }
 
     public String getContent() {
         return content;
@@ -45,7 +50,7 @@ public class Page {
         return author;
     }
 
-    public Config getConfig() {
-        return config;
+    public Config getSite() {
+        return site;
     }
 }
