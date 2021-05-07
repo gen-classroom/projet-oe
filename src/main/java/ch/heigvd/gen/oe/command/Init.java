@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.concurrent.Callable;
 
 import ch.heigvd.gen.oe.structure.Config;
+import ch.heigvd.gen.oe.utils.HandlebarsManager;
 import ch.heigvd.gen.oe.utils.Json;
 import ch.heigvd.gen.oe.utils.Markdown;
 import picocli.CommandLine;
@@ -36,6 +37,10 @@ public class Init implements Callable<Integer> {
         // create config.json
         Json config = new Json();
         config.create(new Config(), dirSiteName + "/config");
+
+        // create templates
+        HandlebarsManager hbManager = new HandlebarsManager(dirSiteName);
+        hbManager.createTemplate();
 
         return 0;
     }
