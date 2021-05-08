@@ -23,7 +23,7 @@ import picocli.CommandLine.Command;
 public class Oe implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-v", "--version"}, description = "version of oe static site generator")
-    static boolean version;
+    private static boolean version;
 
     /**
      * main
