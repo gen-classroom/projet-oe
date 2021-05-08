@@ -53,7 +53,7 @@ public class HandlebarsManagerTest {
         final String EXPECTED_MENU = "<ul>\n" +
                 "    <li>\n" +
                 "        <a href=\"/index.html\">home</a>\n" +
-                "    <li>\n" +
+                "    </li>\n" +
                 "    <li>\n" +
                 "        <a href=\"/pages/Test1.html\">Test1</a>\n" +
                 "    </li>\n" +
@@ -93,7 +93,7 @@ public class HandlebarsManagerTest {
                 "    <ul>\n" +
                 "    <li>\n" +
                 "        <a href=\"/index.html\">home</a>\n" +
-                "    <li>\n" +
+                "    </li>\n" +
                 "    <li>\n" +
                 "        <a href=\"/pages/Test1.html\">Test1</a>\n" +
                 "    </li>\n" +

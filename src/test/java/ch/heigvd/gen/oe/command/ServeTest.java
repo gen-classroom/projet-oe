@@ -38,7 +38,7 @@ public class ServeTest {
     @Test
     public void testDownload() throws IOException {
         server.start();
-        URL url = new URL("http://localhost:8080/static/index.html");
+        URL url = new URL("http://localhost:8080/index.html");
         BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
         in.lines().forEach(System.out::println);
         in.close();
@@ -46,10 +46,10 @@ public class ServeTest {
     }
 
     @Test
-    public void testFilenNotFound() throws IOException {
+    public void testFileNotFound() throws IOException {
         server.start();
         Exception exception = Assertions.assertThrows(FileNotFoundException.class, () -> {
-            URL url = new URL("http://localhost:8080/static/not_found");
+            URL url = new URL("http://localhost:8080/not_found");
             url.openStream();
         });
         server.stop();
