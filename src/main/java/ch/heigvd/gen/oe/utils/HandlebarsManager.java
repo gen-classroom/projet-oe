@@ -25,7 +25,7 @@ public class HandlebarsManager {
     private static final String TEMPLATE_MENU = "<ul>\n" +
             "    <li>\n" +
             "        <a href=\"/index.html\">home</a>\n" +
-            "    <li>\n" +
+            "    </li>\n" +
             "    {{#each}}\n" +
             "    <li>\n" +
             "        <a href=\"{{{filename}}}\">{{{title}}}</a>\n" +
