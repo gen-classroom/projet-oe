@@ -7,6 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+/**
+ * Class StaticHttpServer, main class for the http server
+ *
+ * @authors: Zwick Gaétan, Tevaearai Rébecca
+ */
 public class StaticHttpServer {
 
     private static String BASEDIR;

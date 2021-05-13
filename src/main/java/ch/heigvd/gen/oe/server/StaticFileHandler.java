@@ -1,6 +1,5 @@
 package ch.heigvd.gen.oe.server;
 
-
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -12,7 +11,11 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
-
+/**
+ *  Class StaticFileHandler, handler of the http server
+ *
+ *  @authors: Zwick Gaétan, Tevaearai Rébecca
+ */
 public class StaticFileHandler implements HttpHandler {
 
     private final String dir;
@@ -40,6 +43,5 @@ public class StaticFileHandler implements HttpHandler {
             out.write("404 file not found.".getBytes(StandardCharsets.UTF_8));
         }
         out.close();
-
     }
 }
