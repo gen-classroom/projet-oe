@@ -29,12 +29,6 @@ public class ServeTest {
 
     StaticHttpServer server = new StaticHttpServer(DIR_NAME);
 
-//    @Test
-//    public void testPersistent() throws IOException {
-//        server.start();
-//        while (true);
-//    }
-
     @Test
     public void testDownload() throws IOException {
         server.start();
