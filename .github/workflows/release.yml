@@ -13,10 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Create Release
+        run: mvn clean install
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            projet-oe.zip
-          automatic_release_tag: latest
+            target/projet-oe.zip
+            target/projet-oe-v0.0.1.jar
+          automatic_release_tag: ${{ github.ref }}
