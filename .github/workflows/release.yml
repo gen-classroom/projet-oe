@@ -1,0 +1,83 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            # User instructions
+            ## Deployment 
+            Unzip the provided projet.oe.zip and add the bin directory to your path:
+            ```
+            export PATH=$PATH:`pwd`/projet-oe/bin
+            ```
+            Executing oe should now produce the following result:
+            ```
+            Usage: projet-oe [-v] [COMMAND]
+            A brand new static site generator.
+              -v, --version   version of oe static site generator
+            Commands:
+              init   Init a static site
+              clean  Clean a static site
+              build  Build a static site
+              serve  Serve a static site
+            ```
+            ## Details
+            ### version
+            Option `-v` or `--version` gives the current version of oe static site generator:
+            ```
+            oe - v
+            ```
+            ### init
+            A path (relative/absolute) must be provided as for example:
+            ```
+            oe init ./site
+            ``` 
+            In the folder `site`, a sub-folder named `pages` will be created. Inside, you should add your markdown pages based on the structure in `index.md`:
+            ```
+            site
+            ├── config.json
+            ├── index.md
+            └── pages
+            ```
+            ### build
+            A path (relative/absolute) denoting the site directory must be provided, as for example:
+            ```
+            oe build ./site
+            ``` 
+            In the folder `site`, a sub-folder named `build` will be created. Inside, you will have the sub-folder `pages` with your markdown pages converted to html. Other non-markdown files inside will simply be copied. Only the `index.md` outside is treated:
+            ```
+            site
+            ├── build
+            │   ├── index.html
+            │   └── pages
+            ├── config.json
+            ├── index.md
+            └── pages
+            ``` 
+            ### clean
+            A path (relative/absolute) denoting the site directory must be provided, as for example:
+            ```
+            oe clean ./site
+            ``` 
+            This will remove the `build` sub-folder inside.
+            ### serve
+            Create a local server for the site. Access by browser with the url : localhost:8080/index.html
+          draft: false
+          prerelease: false
