@@ -17,14 +17,15 @@ jobs:
       - name: Get the version 
         id: get_version 
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          files: |
+            target/projet-oe.zip
+            target/projet-oe-v0.0.1.jar
+          name: Oe ${{ steps.get_version.outputs.VERSION }}
           body: |
             # User instructions
             ## Deployment 
@@ -84,6 +85,6 @@ jobs:
             This will remove the `build` sub-folder inside.
             ### serve
             Create a local server for the site. Access by browser with the url : localhost:8080/index.html
-          draft: false
-          prerelease: false
 
+          
+            
