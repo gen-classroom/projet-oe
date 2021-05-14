@@ -27,7 +27,7 @@ public class InitTest {
 
     @Test
     public void initShouldCreateSiteDirectoryWithRelativePath() {
-        final String DIR_NAME = "site";
+        final String DIR_NAME = "testSite";
 
         // Exec command
         new CommandLine(new Oe()).execute("init", DIR_NAME);
@@ -46,7 +46,7 @@ public class InitTest {
 
     @Test
     public void initShouldCreateSiteDirectoryWithAbsolutePath() {
-        final String DIR_NAME = "site";
+        final String DIR_NAME = "testSite";
         final String CURRENT_DIR = System.getProperty("user.dir");
 
         // Exec command
@@ -66,8 +66,8 @@ public class InitTest {
 
     @Test
     public void initShouldCreateTheCorrectFilesAndDir() {
-        final String SITE_DIRNAME = "site";
-        final String[] GOALS = {"pages", "index.md", "config.json"};
+        final String SITE_DIRNAME = "testSite";
+        final String[] GOALS = {"pages", "index.md", "config.json", "templates", "templates/layout.html", "templates/menu.html"};
 
         // Exec command
         new CommandLine(new Oe()).execute("init", SITE_DIRNAME);

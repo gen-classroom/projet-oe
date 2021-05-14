@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-
 /**
  * Class DFSFileExplorer to DFS a file system in pre or post order
  * 
