@@ -5,11 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.WatchKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import ch.heigvd.gen.oe.Oe;
 import ch.heigvd.gen.oe.structure.Config;
 import ch.heigvd.gen.oe.structure.Page;
 import ch.heigvd.gen.oe.utils.*;
@@ -18,8 +18,8 @@ import picocli.CommandLine.Command;
 
 /**
  * Subcommand build
- * <p>
- * author: Miguel Do Vale Lopes, Gamboni Fiona
+ *
+ * author: Miguel Do Vale Lopes, Gamboni Fiona, Tevaearai Rébecca, Zwick Gaétan
  */
 @Command(name = "build", description = "Build a static site")
 public class Build implements Callable<Integer> {
@@ -30,30 +30,29 @@ public class Build implements Callable<Integer> {
     private static boolean watch;
 
     /**
-     * Call subcommand build to build the initialised site
+     * Call subcommand build to build the initialised site, active watch
+     * can be performed with option -w or --watch
      *
      * @return 0
      */
     @Override
     public Integer call() {
 
+        // Option -w, --watch has been supplied
         if (watch) {
-            FileWatcher fileWatcher = null;
-            try {
-                fileWatcher = new FileWatcher();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return 1;
-            }
 
             try {
+                // Big brother is watching
                 final List<Path> paths = new ArrayList<>();
-                WatchKey key = null;
-                do {
-                    if (key != null) {
-                        key.reset();
+                while (true) {
+
+                    // Clean and build
+                    clean();
+                    if (build() != 0) {
+                        return 1;
                     }
-                    build();
+
+                    // Get paths to watch
                     paths.clear();
                     paths.add(Paths.get(dirSiteName));
                     DFSFileExplorer dfs = new DFSFileExplorer((File file) -> {
@@ -61,24 +60,39 @@ public class Build implements Callable<Integer> {
                             paths.add(Paths.get(file.getPath()));
                         }
                     }, false);
-
                     dfs.visit(new File(dirSiteName + "/pages"));
-                    fileWatcher.watch(paths).reset();
-                } while (true);
+
+                    // Block until a changed as occurred with the directories watched or the files inside
+                    FileWatcher.watch(paths).reset();
+                }
 
             } catch (InvocationTargetException | IllegalAccessException | IOException | InterruptedException e) {
                 e.printStackTrace();
                 return 1;
             }
-        } else {
-            build();
         }
 
-        return 0;
+        // Without option -w, --watch -> just clean and build
+        else {
+            clean();
+            return build();
+        }
     }
 
+    /**
+     * Clean command
+     */
+    private void clean() {
+        new CommandLine(new Oe()).execute("clean", dirSiteName);
+    }
 
+    /**
+     * Build command
+     *
+     * @return not 0 in case of failure
+     */
     private int build() {
+
         // Create build dir
         File build = new File(dirSiteName + "/build");
         if (build.mkdir()) {
