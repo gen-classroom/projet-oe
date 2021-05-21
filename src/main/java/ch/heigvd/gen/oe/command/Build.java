@@ -3,28 +3,31 @@ package ch.heigvd.gen.oe.command;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.WatchKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import ch.heigvd.gen.oe.structure.Config;
 import ch.heigvd.gen.oe.structure.Page;
-import ch.heigvd.gen.oe.utils.DFSFileExplorer;
-import ch.heigvd.gen.oe.utils.HandlebarsManager;
-import ch.heigvd.gen.oe.utils.Json;
-import ch.heigvd.gen.oe.utils.Markdown;
+import ch.heigvd.gen.oe.utils.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 /**
  * Subcommand build
- *
+ * <p>
  * author: Miguel Do Vale Lopes, Gamboni Fiona
  */
 @Command(name = "build", description = "Build a static site")
 public class Build implements Callable<Integer> {
     @CommandLine.Parameters(paramLabel = "</path/site>", description = "directory to build site")
     private String dirSiteName;
+
+    @CommandLine.Option(names = {"-w", "--watch"}, description = "build site every update")
+    private static boolean watch;
 
     /**
      * Call subcommand build to build the initialised site
@@ -33,6 +36,49 @@ public class Build implements Callable<Integer> {
      */
     @Override
     public Integer call() {
+
+        if (watch) {
+            FileWatcher fileWatcher = null;
+            try {
+                fileWatcher = new FileWatcher();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return 1;
+            }
+
+            try {
+                final List<Path> paths = new ArrayList<>();
+                WatchKey key = null;
+                do {
+                    if (key != null) {
+                        key.reset();
+                    }
+                    build();
+                    paths.clear();
+                    paths.add(Paths.get(dirSiteName));
+                    DFSFileExplorer dfs = new DFSFileExplorer((File file) -> {
+                        if (file.isDirectory()) {
+                            paths.add(Paths.get(file.getPath()));
+                        }
+                    }, false);
+
+                    dfs.visit(new File(dirSiteName + "/pages"));
+                    fileWatcher.watch(paths).reset();
+                } while (true);
+
+            } catch (InvocationTargetException | IllegalAccessException | IOException | InterruptedException e) {
+                e.printStackTrace();
+                return 1;
+            }
+        } else {
+            build();
+        }
+
+        return 0;
+    }
+
+
+    private int build() {
         // Create build dir
         File build = new File(dirSiteName + "/build");
         if (build.mkdir()) {
@@ -105,6 +151,7 @@ public class Build implements Callable<Integer> {
         System.out.println();
         return 0;
     }
+
 
     /**
      * Create an html File with html content

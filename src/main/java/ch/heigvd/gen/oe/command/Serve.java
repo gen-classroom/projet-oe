@@ -27,6 +27,9 @@ public class Serve implements Callable<Integer> {
         try {
             StaticHttpServer server = new StaticHttpServer(dirSiteName);
             server.start();
+
+
+
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
