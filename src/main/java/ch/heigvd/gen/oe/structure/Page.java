@@ -23,7 +23,7 @@ public class Page {
      * @param author  author of the page
      * @param config  config of the page
      */
-    public Page(String content, String date, String title, String author, String filename, Config config) {
+    public Page(String content, String title, String author, String date, String filename, Config config) {
         this.content = content;
         this.date = date;
         this.title = title;
