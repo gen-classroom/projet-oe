@@ -71,10 +71,10 @@ public class HandlebarsManagerTest {
         Config config = new Config("siteTitle", "site test description",
                 "www.websiteTest.com", "EN");
         ArrayList<Page> pages = new ArrayList<>();
-        pages.add(new Page("<p>An interesting test content</p>", "2021-04-03", "Test1",
-                "F_Tester", "/pages/Test1.html", config));
-        pages.add(new Page("<h1>Waoow test</h1>", "2020-04-03", "Test2",
-                "Winny_Tester", "/pages/Test2.html", config));
+        pages.add(new Page("<p>An interesting test content</p>", "Test1", "F_Tester",
+                "2021-04-03", "/pages/Test1.html", config));
+        pages.add(new Page("<h1>Waoow test</h1>", "Test2", "Winny_Tester",
+                "2020-04-03", "/pages/Test2.html", config));
 
         // Parse the pages and generate menu
         String menu = manager.parseMenu(pages);
@@ -116,10 +116,10 @@ public class HandlebarsManagerTest {
         Config config = new Config("siteTitle", "site test description",
                 "www.websiteTest.com", "EN");
         ArrayList<Page> pages = new ArrayList<>();
-        pages.add(new Page("<p>An interesting test content</p>", "2021-04-03", "Test1",
-                "F_Tester", "/pages/Test1.html", config));
-        pages.add(new Page("<h1>Waoow test</h1>", "2020-04-03", "Test2",
-                "Winny_Tester", "/pages/Test2.html", config));
+        pages.add(new Page("<p>An interesting test content</p>", "Test1", "F_Tester",
+                "2021-04-03", "/pages/Test1.html", config));
+        pages.add(new Page("<h1>Waoow test</h1>", "Test2", "Winny_Tester",
+                "2020-04-03", "/pages/Test2.html", config));
 
         // Generate menu, set it to page and generate page
         String menu = manager.parseMenu(pages);
