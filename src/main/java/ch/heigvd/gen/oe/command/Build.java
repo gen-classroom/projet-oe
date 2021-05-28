@@ -3,8 +3,6 @@ package ch.heigvd.gen.oe.command;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -40,12 +38,9 @@ public class Build implements Callable<Integer> {
 
         // Option -w, --watch has been supplied
         if (watch) {
-
             try {
                 // Big brother is watching
-                final List<Path> paths = new ArrayList<>();
                 while (true) {
-
                     // Clean and build
                     clean();
                     if (build() != 0) {
@@ -53,17 +48,7 @@ public class Build implements Callable<Integer> {
                     }
 
                     // Get paths to watch
-                    paths.clear();
-                    paths.add(Paths.get(dirSiteName));
-                    DFSFileExplorer dfs = new DFSFileExplorer((File file) -> {
-                        if (file.isDirectory()) {
-                            paths.add(Paths.get(file.getPath()));
-                        }
-                    }, false);
-                    dfs.visit(new File(dirSiteName + "/pages"));
-
-                    // Block until a changed as occurred with the directories watched or the files inside
-                    FileWatcher.watch(paths).reset();
+                    FileWatcher.watch(dirSiteName);
                 }
 
             } catch (InvocationTargetException | IllegalAccessException | IOException | InterruptedException e) {
