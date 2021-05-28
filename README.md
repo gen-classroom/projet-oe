@@ -58,7 +58,7 @@ site
 - un fichier de configuration `config.json` contenant les configurations du site.
 
 - un fichier `index.md` à remplir qui sera la page principale du site.
-- un sous-dossier `pages` qui devra contenir toutes les [pages en format Markdown](### Formatage des pages) .
+- un sous-dossier `pages` qui devra contenir toutes les [pages en format Markdown](#page) .
 
 - un sous-dossier `templates` contenant les templates en format `HTML`.
 
@@ -109,7 +109,7 @@ Le site s'accède à l'adresse : [localhost:8080/index.html]().
 
 - `-w` ou `--watch` : permet de mettre à jour le site automatiquement lorsque le contenu d'une page (markdown) est modifié.
 
-### Formatage des pages :
+### <a name="page"></a> Formatage des pages :
 
 Les pages Markdown doivent respecter la structure suivante :
 
