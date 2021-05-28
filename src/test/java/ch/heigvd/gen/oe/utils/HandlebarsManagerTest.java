@@ -63,6 +63,7 @@ public class HandlebarsManagerTest {
                 "</ul>";
 
         HandlebarsManager manager = new HandlebarsManager(DIRNAME);
+        manager.createTemplate();
 
         // Create pages and config
         Config config = new Config("siteTitle", "site test description",
@@ -106,6 +107,7 @@ public class HandlebarsManagerTest {
                 "</html>";
 
         HandlebarsManager manager = new HandlebarsManager(DIRNAME);
+        manager.createTemplate();
 
         // Create pages and config
         Config config = new Config("siteTitle", "site test description",
