@@ -103,7 +103,7 @@ L'argument **`serve`** suivi du chemin (relatif/absolu) vers le dossier du site 
 $ oe serve ./site
 ```
 
-Le site s'accède à l'adresse : [localhost:8080/index.html](localhost:8080/index.html).
+Le site s'accède à l'adresse : [localhost:8080/index.html](http://localhost:8080/index.html).
 
 ##### Option disponible : 
 
