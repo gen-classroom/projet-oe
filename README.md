@@ -58,7 +58,7 @@ site
 - un fichier de configuration `config.json` contenant les configurations du site.
 
 - un fichier `index.md` à remplir qui sera la page principale du site.
-- un sous-dossier `pages` qui devra contenir toutes les [pages en format Markdown](#Formatage des pages :).
+- un sous-dossier `pages` qui devra contenir toutes les [pages en format Markdown](#Formatage des pages :) .
 
 - un sous-dossier `templates` contenant les templates en format `HTML`.
 
