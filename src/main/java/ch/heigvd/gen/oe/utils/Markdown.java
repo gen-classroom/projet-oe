@@ -15,21 +15,22 @@ import java.util.Arrays;
 /**
  * Generate Markdown page, split metadata from data and convert Markdown to Html
  *
- * authors: Fiona Gamboni, Gaétan Zwick
+ * @author Fiona Gamboni, Gaétan Zwick
  */
 public class Markdown {
 
     static final char LINEBREAK_TYPE = '\n';
     static final String METADATA_SEPARATOR = "---";
 
-    public static final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
+    private static final String TEMPLATE = "titre:" + LINEBREAK_TYPE +
             "auteur:" + LINEBREAK_TYPE +
             "date: " + java.time.LocalDate.now() + LINEBREAK_TYPE +
             METADATA_SEPARATOR + LINEBREAK_TYPE + "# Write your page in markdown";
 
     /**
      * Create a new markdown page with a given name
-     * @param filename : filename
+     *
+     * @param filename filename
      */
     public void create(String filename) {
         try {
@@ -49,6 +50,7 @@ public class Markdown {
 
     /**
      * Convert markdown data to html format string
+     *
      * @param markdown without metadata
      * @return String of markdown in html format
      */

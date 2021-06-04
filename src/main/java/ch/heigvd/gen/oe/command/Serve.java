@@ -13,8 +13,8 @@ import ch.heigvd.gen.oe.server.StaticHttpServer;
 
 /**
  * Subcommand serve
- * <p>
- * authors: Zwick Gaétan, Tevaearai Rébecca
+ *
+ * @author Zwick Gaétan, Tevaearai Rébecca
  */
 @Command(name = "serve", description = "Serve a static site")
 public class Serve implements Callable<Integer> {

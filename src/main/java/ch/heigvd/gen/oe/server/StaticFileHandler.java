@@ -14,13 +14,18 @@ import java.nio.file.Files;
 /**
  * Class StaticFileHandler used to handle the incoming http requests
  *
- * authors: Zwick Gaétan, Tevaearai Rébecca
+ * @author Zwick Gaétan, Tevaearai Rébecca
  */
 public class StaticFileHandler implements HttpHandler {
 
     // base directory of files
     private final String dir;
 
+    /**
+     * StaticFileHandler constructor
+     *
+     * @param dir base directory of the site
+     */
     public StaticFileHandler(String dir) {
         this.dir = dir;
     }

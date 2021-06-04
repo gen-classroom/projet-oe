@@ -8,7 +8,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 /**
  * class to run Benchmarks on project Oe
  *
- * authors: Do Vale Lopes Miguel, Gamboni Fiona
+ * @author Do Vale Lopes Miguel, Gamboni Fiona
  */
 public class BenchmarkRunner {
     public static void main(String[] args) throws RunnerException {

@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * Class to manage Handlebars
- * <p>
- * authors: Do Vale Lopes Miguel, Gamboni Fiona
+ *
+ * @author Do Vale Lopes Miguel, Gamboni Fiona
  */
 public class HandlebarsManager {
 

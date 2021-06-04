@@ -15,7 +15,7 @@ import picocli.CommandLine.Command;
 /**
  * main Command for static site generator
  *
- * authors: Gamboni Fiona, Do Vale Lopes Miguel
+ * @author Gamboni Fiona, Do Vale Lopes Miguel
  */
 @Command(name = "projet-oe",
         description = "A brand new static site generator.",
@@ -26,7 +26,7 @@ public class Oe implements Callable<Integer> {
     private static boolean version;
 
     /**
-     * main
+     * main function
      *
      * @param args arguments provided with 'oe' command
      */

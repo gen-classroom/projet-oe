@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Class regrouping benchmarks on project oe
  *
- * authors: Do Vale Lopes Miguel, Gamboni Fiona
+ * @author Do Vale Lopes Miguel, Gamboni Fiona
  */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

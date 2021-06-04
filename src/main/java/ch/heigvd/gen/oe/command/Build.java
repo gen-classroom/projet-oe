@@ -17,7 +17,7 @@ import picocli.CommandLine.Command;
 /**
  * Subcommand build
  *
- * author: Miguel Do Vale Lopes, Gamboni Fiona, Tevaearai Rébecca, Zwick Gaétan
+ * @author Miguel Do Vale Lopes, Gamboni Fiona, Tevaearai Rébecca, Zwick Gaétan
  */
 @Command(name = "build", description = "Build a static site")
 public class Build implements Callable<Integer> {
