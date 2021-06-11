@@ -7,32 +7,77 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import ch.heigvd.gen.oe.Oe;
 import ch.heigvd.gen.oe.structure.Config;
 import ch.heigvd.gen.oe.structure.Page;
-import ch.heigvd.gen.oe.utils.DFSFileExplorer;
-import ch.heigvd.gen.oe.utils.HandlebarsManager;
-import ch.heigvd.gen.oe.utils.Json;
-import ch.heigvd.gen.oe.utils.Markdown;
+import ch.heigvd.gen.oe.utils.*;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 /**
  * Subcommand build
  *
- * author: Miguel Do Vale Lopes, Gamboni Fiona
+ * @author Miguel Do Vale Lopes, Gamboni Fiona, Tevaearai Rébecca, Zwick Gaétan
  */
 @Command(name = "build", description = "Build a static site")
 public class Build implements Callable<Integer> {
     @CommandLine.Parameters(paramLabel = "</path/site>", description = "directory to build site")
     private String dirSiteName;
 
+    @CommandLine.Option(names = {"-w", "--watch"}, description = "build site every update")
+    private static boolean watch;
+
     /**
-     * Call subcommand build to build the initialised site
+     * Call subcommand build to build the initialised site, active watch
+     * can be performed with option -w or --watch
      *
      * @return 0
      */
     @Override
     public Integer call() {
+
+        // Option -w, --watch has been supplied
+        if (watch) {
+            try {
+                // Big brother is watching
+                while (true) {
+                    // Clean and build
+                    clean();
+                    if (build() != 0) {
+                        return 1;
+                    }
+
+                    // Get paths to watch
+                    FileWatcher.watch(dirSiteName);
+                }
+
+            } catch (InvocationTargetException | IllegalAccessException | IOException | InterruptedException e) {
+                e.printStackTrace();
+                return 1;
+            }
+        }
+
+        // Without option -w, --watch -> just clean and build
+        else {
+            clean();
+            return build();
+        }
+    }
+
+    /**
+     * Clean command
+     */
+    private void clean() {
+        new CommandLine(new Oe()).execute("clean", dirSiteName);
+    }
+
+    /**
+     * Build command
+     *
+     * @return not 0 in case of failure
+     */
+    private int build() {
+
         // Create build dir
         File build = new File(dirSiteName + "/build");
         if (build.mkdir()) {
@@ -105,6 +150,7 @@ public class Build implements Callable<Integer> {
         System.out.println();
         return 0;
     }
+
 
     /**
      * Create an html File with html content

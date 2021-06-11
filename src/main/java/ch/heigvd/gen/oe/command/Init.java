@@ -13,7 +13,7 @@ import picocli.CommandLine.Command;
 /**
  * Subcommand init
  *
- * authors: Fiona Gamboni, Miguel Do Vale Lopes
+ * @author Fiona Gamboni, Miguel Do Vale Lopes
  */
 @Command(name = "init", description = "Init a static site")
 public class Init implements Callable<Integer> {
@@ -22,6 +22,7 @@ public class Init implements Callable<Integer> {
 
     /**
      * Call subcommand init to create the base of the site
+     *
      * @return 0
      */
     @Override
@@ -47,6 +48,7 @@ public class Init implements Callable<Integer> {
 
     /**
      * Create a directory
+     *
      * @param dirName : name of the directory to be created
      */
     private void createDir(String dirName) {

@@ -7,6 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+/**
+ * Class StaticHttpServer used to create a server
+ *
+ * @author Zwick Gaétan, Tevaearai Rébecca
+ */
 public class StaticHttpServer {
 
     // base directory where the build folder should exist
@@ -18,6 +23,11 @@ public class StaticHttpServer {
     // instance of the http server
     private HttpServer server;
 
+    /**
+     * StaticHttpServer constructor
+     *
+     * @param baseDir base directory of the site
+     */
     public StaticHttpServer(String baseDir) {
         BASEDIR = baseDir;
     }
@@ -26,6 +36,7 @@ public class StaticHttpServer {
      * Called to start a new server
      *
      * @return true if the server started without problems otherwise throw an IOException
+     * @throws IOException file error
      */
     public boolean start() throws IOException {
         // new http server

@@ -11,7 +11,7 @@ import picocli.CommandLine.Command;
 /**
  * Subcommand init
  *
- * author: Gamboni Fiona
+ * @author Gamboni Fiona
  */
 @Command(name = "clean", description = "Clean a static site")
 public class Clean implements Callable<Integer> {

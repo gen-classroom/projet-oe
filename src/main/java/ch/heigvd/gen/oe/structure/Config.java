@@ -36,18 +36,30 @@ public class Config {
         this.language = language;
     }
 
+    /**
+     * @return description of the site
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @return domain of the site
+     */
     public String getDomain() {
         return domain;
     }
 
+    /**
+     * @return language of the site
+     */
     public String getLanguage() {
         return language;
     }
 
+    /**
+     * @return title of the site
+     */
     public String getTitle() {
         return title;
     }

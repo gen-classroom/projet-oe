@@ -1,10 +1,12 @@
 package ch.heigvd.gen.oe.utils;
 
+import ch.heigvd.gen.oe.Oe;
 import ch.heigvd.gen.oe.structure.Config;
 import ch.heigvd.gen.oe.structure.Page;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import picocli.CommandLine;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -85,6 +87,7 @@ public class HandlebarsManagerTest {
 
     @Test
     public void parsePageShouldWork(){
+
         final String EXPECTED_PAGE = "<html lang=\"EN\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +

@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 /**
  * Class DFSFileExplorer to DFS a file system in pre or post order
- * 
- * authors: Gamboni Fiona, Do Vale Lopes Miguel
+ *
+ * @author Gamboni Fiona, Do Vale Lopes Miguel
  */
 public class DFSFileExplorer {
 
